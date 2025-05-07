@@ -1,22 +1,27 @@
-@props(['quizzes'])
+@props(['quiz'])
 
-<div class=" max-w-7xl mx-auto">
+<div class=" max-w-xl mx-auto  space-y-12">
 
-    <ul class="grid grid-cols-2 gap-5">
+    <div class="space-y-2">
+        <h2 class="text-4xl font-bold">Let’s get this party started!</h2>
+        <p>Take this quiz with friends in real time and compare results.</p>
+    </div>
 
-        @foreach ($quizzes as $item)
-            <li  wire:click="chooseQuiz('{{ $item->slug }}')" class="h-80  border relative flex justify-center items-center cursor-pointer overflow-hidden rounded-xl  group">
+    <div class="grid grid-cols-12  border rounded-2xl gap-3  p-3">
 
-                <img class="h-full w-full  object-cover" src="{{ $item->image }}" alt="image">
+        <img src="{{ $quiz->image }}" alt="" class="col-span-4 h-32 w-full  rounded-xl">
 
-                <div class="absolute inset-auto m-auto gap-5 max-w-[85%] z-10 text-white flex group-hover:scale-105 transition-all flex-col items-center justify-center ">
-                <h3 class="text-4xl lg:text-4xl font-bold">{{ $item->title }}</h3>
-                <p class="mx-auto  flex items-center justify-center text-gray-100 max-w-lg">{{ $item->description }}</p>
-                
-                </div>
-                <span class="absolute inset-0 bg-black opacity-55 group-hover:opacity-50  transition-all"></span>
-            </li>
-        @endforeach
 
-    </ul>
+        <div class=" col-span-8 text-2xl font-bold p-3 ">
+          {{ $quiz->title }}
+        </div>
+
+    </div>
+
+    <div>
+        <flux:button wire:click="$set('start',true)" variant="primary" type="submit" class="w-full">{{ __('Next') }}</flux:button>
+    </div>
+
+
+ 
 </div>

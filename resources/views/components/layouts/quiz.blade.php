@@ -3,7 +3,7 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800 p-9 max-w-7xl mx-auto">
+    <body class="min-h-screen bg-white dark:bg-zinc-800 p-9 max-w-7xl mx-auto grid">
 
         <nav >
 

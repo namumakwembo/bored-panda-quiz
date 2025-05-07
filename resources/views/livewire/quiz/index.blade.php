@@ -3,6 +3,7 @@
 use Livewire\Volt\Component;
 use Livewire\Attributes\{Layout, Title};
 use App\Models\Quiz;
+use App\Models\QuizSession;
 new #[Layout('components.layouts.quiz')] class extends Component {
     public $token;
     //public $quizzes;
@@ -54,5 +55,5 @@ new #[Layout('components.layouts.quiz')] class extends Component {
 
 <div>
 
-    <x-quiz.start :quizzes="$quizzes" />
+    <x-quiz.quizzes :quizzes="$quizzes" />
 </div>
