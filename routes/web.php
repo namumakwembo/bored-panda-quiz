@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Volt::route('/', 'quiz.index')->name('home');
-Volt::route('/quiz/{slug}', 'quiz.quiz')->name('quiz');
+Volt::route('/quiz/{slug}/{token?}', 'quiz.show')->name('quiz');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
