@@ -84,6 +84,26 @@ class QuizSeeder extends Seeder
                             ['text' => 'Netflix and snacks', 'outcome' => 'chill'],
                         ],
                     ],
+                    [
+                        'text' => 'How do you react when a friend cancels plans?',
+                        'order' => 4,
+                        'options' => [
+                            ['text' => 'Check in to make sure they’re okay', 'outcome' => 'loyal'],
+                            ['text' => 'Plan something fun for next time', 'outcome' => 'fun'],
+                            ['text' => 'Offer perspective on balancing life', 'outcome' => 'wise'],
+                            ['text' => 'No worries, catch up later', 'outcome' => 'chill'],
+                        ],
+                    ],
+                    [
+                        'text' => 'What gift do you give a friend for their birthday?',
+                        'order' => 5,
+                        'options' => [
+                            ['text' => 'A heartfelt letter or custom gift', 'outcome' => 'loyal'],
+                            ['text' => 'Tickets to a concert or event', 'outcome' => 'fun'],
+                            ['text' => 'A thought-provoking book', 'outcome' => 'wise'],
+                            ['text' => 'Something practical they’ll like', 'outcome' => 'chill'],
+                        ],
+                    ],
                 ],
             ],
             // Quiz 2: Which Movie Genre Is Your Life?
@@ -143,6 +163,26 @@ class QuizSeeder extends Seeder
                             ['text' => 'Jungle expedition', 'outcome' => 'adventure'],
                         ],
                     ],
+                    [
+                        'text' => 'What’s your go-to movie snack?',
+                        'order' => 4,
+                        'options' => [
+                            ['text' => 'Popcorn with a sweet twist', 'outcome' => 'romcom'],
+                            ['text' => 'Chips to keep you on edge', 'outcome' => 'thriller'],
+                            ['text' => 'Comfort food like chocolate', 'outcome' => 'drama'],
+                            ['text' => 'Trail mix for the journey', 'outcome' => 'adventure'],
+                        ],
+                    ],
+                    [
+                        'text' => 'How would your life’s plot twist play out?',
+                        'order' => 5,
+                        'options' => [
+                            ['text' => 'Meeting your soulmate unexpectedly', 'outcome' => 'romcom'],
+                            ['text' => 'Uncovering a hidden secret', 'outcome' => 'thriller'],
+                            ['text' => 'A life-changing realization', 'outcome' => 'drama'],
+                            ['text' => 'Embarking on a spontaneous trip', 'outcome' => 'adventure'],
+                        ],
+                    ],
                 ],
             ],
             // Quiz 3: What’s Your Dream Career Vibe?
@@ -160,7 +200,7 @@ class QuizSeeder extends Seeder
                     ],
                     'creative' => [
                         'title' => 'Creative Visionary',
-                        'Parameter: description' => 'You shine when expressing ideas through art or innovation.',
+                        'description' => 'You shine when expressing ideas through art or innovation.',
                     ],
                     'freelance' => [
                         'title' => 'Freelance Free Spirit',
@@ -200,6 +240,26 @@ class QuizSeeder extends Seeder
                             ['text' => 'Colorful studio space', 'outcome' => 'creative'],
                             ['text' => 'Cozy home office', 'outcome' => 'freelance'],
                             ['text' => 'Community hub', 'outcome' => 'social'],
+                        ],
+                    ],
+                    [
+                        'text' => 'How do you approach a new project?',
+                        'order' => 4,
+                        'options' => [
+                            ['text' => 'Plan meticulously with goals', 'outcome' => 'corporate'],
+                            ['text' => 'Brainstorm creative ideas', 'outcome' => 'creative'],
+                            ['text' => 'Dive in and figure it out', 'outcome' => 'freelance'],
+                            ['text' => 'Focus on its impact', 'outcome' => 'social'],
+                        ],
+                    ],
+                    [
+                        'text' => 'What’s your ideal work reward?',
+                        'order' => 5,
+                        'options' => [
+                            ['text' => 'A promotion or raise', 'outcome' => 'corporate'],
+                            ['text' => 'Recognition for innovation', 'outcome' => 'creative'],
+                            ['text' => 'More freedom in schedule', 'outcome' => 'freelance'],
+                            ['text' => 'Seeing positive change', 'outcome' => 'social'],
                         ],
                     ],
                 ],
@@ -259,6 +319,26 @@ class QuizSeeder extends Seeder
                             ['text' => 'Hot and sunny', 'outcome' => 'summer'],
                             ['text' => 'Crisp and colorful', 'outcome' => 'fall'],
                             ['text' => 'Cold and snowy', 'outcome' => 'winter'],
+                        ],
+                    ],
+                    [
+                        'text' => 'What’s your favorite way to unwind?',
+                        'order' => 4,
+                        'options' => [
+                            ['text' => 'Planting flowers or crafting', 'outcome' => 'spring'],
+                            ['text' => 'Swimming or outdoor games', 'outcome' => 'summer'],
+                            ['text' => 'Journaling or knitting', 'outcome' => 'fall'],
+                            ['text' => 'Meditating by candlelight', 'outcome' => 'winter'],
+                        ],
+                    ],
+                    [
+                        'text' => 'Which color palette speaks to you?',
+                        'order' => 5,
+                        'options' => [
+                            ['text' => 'Pastels and greens', 'outcome' => 'spring'],
+                            ['text' => 'Bright yellows and blues', 'outcome' => 'summer'],
+                            ['text' => 'Warm oranges and browns', 'outcome' => 'fall'],
+                            ['text' => 'Cool blues and whites', 'outcome' => 'winter'],
                         ],
                     ],
                 ],

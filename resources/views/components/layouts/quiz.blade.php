@@ -42,7 +42,7 @@
 
 
         <footer class="mt-3">
-           <a class="text-sm text-gray-300" href="https://github.com/namumakwembo/bored-panda-test"> @namumakwembo</a>
+           <a class="text-sm text-gray-300" href="https://github.com/namumakwembo/bored-panda-quiz"> @namumakwembo</a>
         </footer>
     </div>
 
