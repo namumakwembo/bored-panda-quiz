@@ -27,7 +27,18 @@ class extends Component
 };
 ?>
 
-<div class="max-w-xl w-full mx-auto p-4 border dark:border-zinc-700 rounded-lg h-full min-h-full">
+<div
+x-data 
+x-init="
+confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: {
+      y: 0.6
+    }
+  });
+"
+ class="max-w-xl w-full mx-auto p-4 border dark:border-zinc-700 rounded-lg h-full min-h-full">
 
 
     <div class="space-y-3">

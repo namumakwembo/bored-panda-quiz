@@ -93,17 +93,7 @@ class QuizSeeder extends Seeder
                             ['text' => 'Offer perspective on balancing life', 'outcome' => 'wise'],
                             ['text' => 'No worries, catch up later', 'outcome' => 'chill'],
                         ],
-                    ],
-                    [
-                        'text' => 'What gift do you give a friend for their birthday?',
-                        'order' => 5,
-                        'options' => [
-                            ['text' => 'A heartfelt letter or custom gift', 'outcome' => 'loyal'],
-                            ['text' => 'Tickets to a concert or event', 'outcome' => 'fun'],
-                            ['text' => 'A thought-provoking book', 'outcome' => 'wise'],
-                            ['text' => 'Something practical they’ll like', 'outcome' => 'chill'],
-                        ],
-                    ],
+                    ]
                 ],
             ],
             // Quiz 2: Which Movie Genre Is Your Life?

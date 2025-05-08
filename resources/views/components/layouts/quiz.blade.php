@@ -17,6 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
         @fluxAppearance
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
         
 
     </head>
@@ -41,10 +42,13 @@
         </div>
 
 
+
+
         <footer class="mt-3">
            <a class="text-sm text-gray-300" href="https://github.com/namumakwembo/bored-panda-quiz"> @namumakwembo</a>
         </footer>
     </div>
+
 
         @livewireScriptConfig
         @fluxScripts
