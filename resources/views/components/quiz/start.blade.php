@@ -9,10 +9,10 @@
 
     <div class="grid grid-cols-12  border dark:border-zinc-700  rounded-2xl gap-3  p-3">
 
-        <img src="{{ $quiz->image }}" alt="" class="col-span-4 h-32 w-full  rounded-xl">
+        <img src="{{ $quiz->image }}" alt="" class="col-span-5 h-32 w-full object-cover rounded-xl">
 
 
-        <div class=" col-span-8 text-2xl font-bold p-3 dark:text-gray-100 ">
+        <div class=" col-span-7 text-lg sm:text-2xl  font-bold p-3 dark:text-gray-100 ">
           {{ $quiz->title }}
         </div>
 
