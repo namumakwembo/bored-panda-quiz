@@ -10,7 +10,7 @@ class Outcome extends Model
     /** @use HasFactory<\Database\Factories\OutcomeFactory> */
     use HasFactory;
 
-
+    protected $guarded= [];
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);

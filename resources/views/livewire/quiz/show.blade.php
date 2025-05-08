@@ -5,39 +5,31 @@ use Livewire\Attributes\{Layout};
 use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\Option;
-use App\Models\QuizSession;
-use App\Models\QuizAnswer;
+use App\Models\Outcome;
 use Illuminate\Support\Str;
 
 new #[Layout('components.layouts.quiz')]
 class extends Component
 {
     public $slug;
-    public $token;
     public $quiz;
     public $questions = [];
     public bool $start = true;
     public $currentQuestionIndex = 0;
-    public $answers = [];
+    public $answers = []; // Store answers as [question_id => outcome_id]
     public $currentQuestion;
-    public $currentOptions;
-    public $session;
     public $selectedOption = null;
 
-    public function mount($slug, $token = null): void
+    public function mount($slug): void
     {
         $this->slug = $slug;
-        $this->token = $token;
         $this->quiz = Quiz::where('slug', $slug)->firstOrFail();
 
-        // Initialize or resume session
-        $this->initializeSession();
-
-        // Load questions and answers
+        // Load questions
         $this->loadQuestions();
-        $this->loadAnswers();
 
-        $this->currentQuestion=$this->getCurrentQuestionProperty();
+        // Set initial question
+        $this->updateCurrentQuestionAndOptions();
     }
 
     /**
@@ -46,30 +38,6 @@ class extends Component
     public function startQuiz(): void
     {
         $this->start = false;
-    }
-
-    /**
-     * Initialize or resume a quiz session.
-     */
-    private function initializeSession(): void
-    {
-        if ($this->token) {
-            $this->session = QuizSession::where('token', $this->token)
-                ->where('quiz_id', $this->quiz->id)
-                ->first();
-        }
-
-        if (!$this->session || $this->session?->completed) {
-            $this->session = QuizSession::create([
-                'quiz_id' => $this->quiz->id,
-                'token' =>Str::random(32),
-                'completed' => false,
-            ]);
-            $this->token = $this->session->token;
-        }
-
-        // Store token in cookie
-        $this->dispatch('update-token', $this->token);
     }
 
     /**
@@ -84,66 +52,31 @@ class extends Component
                 return [$question->id => ['id' => $question->id, 'text' => $question->text]];
             })
             ->toArray();
-
-
     }
 
     /**
-     * Load previous answers for the session.
-     */
-    private function loadAnswers(): void
-    {
-        $this->answers = QuizAnswer::where('quiz_session_id', $this->session->id)
-            ->pluck('option_id', 'question_id')
-            ->toArray();
-
-        // Set selected option for the current question
-        $currentQuestionId = array_keys($this->questions)[$this->currentQuestionIndex] ?? null;
-        $this->selectedOption = $this->answers[$currentQuestionId] ?? null;
-
-        // Set current question index to the first unanswered question
-        $answeredQuestionIds = array_keys($this->answers);
-        $this->currentQuestionIndex = 0;
-        $questionIds = array_keys($this->questions);
-        foreach ($questionIds as $index => $questionId) {
-            if (!in_array($questionId, $answeredQuestionIds)) {
-                $this->currentQuestionIndex = $index;
-                break;
-            }
-        }
-
-        // If all questions are answered, redirect to outcome
-        if (count($this->answers) === count($this->questions)) {
-            $this->start = false;
-            $this->redirectToOutcome();
-        }
-    }
-
-    /**
-     * Save the selected option as an answer.
+     * Save the selected option's outcome_id to the answers array.
      */
     public function saveAnswer(): void
     {
-        if (!$this->selectedOption) {
-            return;
+        if ($this->selectedOption) {
+            $questionId = array_keys($this->questions)[$this->currentQuestionIndex];
+            // Find the option to get its outcome_id
+            $option = Option::find($this->selectedOption);
+            if ($option && $option->question_id == $questionId && $option->outcome_id) {
+                $this->answers[$questionId] = $option->outcome_id;
+                \Log::info('Saved Answer: ', [
+                    'question_id' => $questionId,
+                    'option_id' => $this->selectedOption,
+                    'outcome_id' => $option->outcome_id
+                ]);
+            } else {
+                \Log::warning('Invalid Option Selected: ', [
+                    'option_id' => $this->selectedOption,
+                    'question_id' => $questionId
+                ]);
+            }
         }
-
-        $option = Option::findOrFail($this->selectedOption);
-        $questionId = array_keys($this->questions)[$this->currentQuestionIndex];
-
-        // Save or update answer
-        QuizAnswer::updateOrCreate(
-            [
-                'quiz_session_id' => $this->session->id,
-                'question_id' => $questionId,
-            ],
-            [
-                'option_id' => $this->selectedOption,
-            ]
-        );
-
-        // Update answers array
-        $this->answers[$questionId] = $this->selectedOption;
     }
 
     /**
@@ -152,10 +85,9 @@ class extends Component
     public function prevQuestion(): void
     {
         if ($this->currentQuestionIndex > 0) {
-            $this->saveAnswer(); // Save current answer before moving
+            $this->saveAnswer();
             $this->currentQuestionIndex--;
-            $currentQuestionId = array_keys($this->questions)[$this->currentQuestionIndex];
-            $this->selectedOption = $this->answers[$currentQuestionId] ?? null;
+            $this->updateCurrentQuestionAndOptions();
         }
     }
 
@@ -164,7 +96,6 @@ class extends Component
      */
     public function nextQuestion(): void
     {
-
         if (!$this->selectedOption) {
             $this->addError('selectedOption', 'Please select an option.');
             return;
@@ -174,15 +105,14 @@ class extends Component
 
         if ($this->currentQuestionIndex < count($this->questions) - 1) {
             $this->currentQuestionIndex++;
-            $currentQuestionId = array_keys($this->questions)[$this->currentQuestionIndex];
-            $this->selectedOption = $this->answers[$currentQuestionId] ?? null;
+            $this->updateCurrentQuestionAndOptions();
         } else {
             $this->completeQuiz();
         }
     }
 
     /**
-     * Complete the quiz and redirect to the outcome page.
+     * Complete the quiz and redirect to the results page.
      */
     public function completeQuiz(): void
     {
@@ -192,16 +122,69 @@ class extends Component
         }
 
         $this->saveAnswer();
-        $this->session->update(['completed' => true]);
-        $this->redirectToOutcome();
+
+        // Evaluate answers to find the most frequent outcome
+        $results = $this->evaluateAnswers();
+
+        // Redirect to results page with the winning outcome_id
+        $this->redirect(route('quiz.result', [
+            'slug' => $this->slug,
+            'outcome_id' => $results['outcome_id'],
+        ]), navigate: true);
     }
 
     /**
-     * Redirect to the outcome page.
+     * Evaluate the answers to find the most frequent outcome.
      */
-    private function redirectToOutcome(): void
+    private function evaluateAnswers(): array
     {
-        $this->redirect(route('quiz.result', ['slug' => $this->slug, 'token' => $this->token]), navigate: true);
+        $results = [
+            'total_questions' => count($this->questions),
+            'answered_questions' => count($this->answers),
+            'outcome_id' => null,
+        ];
+
+        // Count occurrences of each outcome_id
+        $outcomeCounts = [];
+        foreach ($this->answers as $questionId => $outcomeId) {
+            $outcomeCounts[$outcomeId] = ($outcomeCounts[$outcomeId] ?? 0) + 1;
+        }
+
+        // Find the outcome_id with the most occurrences
+        if (!empty($outcomeCounts)) {
+            $results['outcome_id'] = array_keys($outcomeCounts, max($outcomeCounts))[0];
+        } else {
+            // Fallback: Select a random outcome if no answers
+            $outcome = Outcome::where('quiz_id', $this->quiz->id)->first();
+            $results['outcome_id'] = $outcome->id ?? null;
+        }
+
+        \Log::info('Evaluated Results: ', $results);
+
+        return $results;
+    }
+
+    /**
+     * Update current question and selected option.
+     */
+    private function updateCurrentQuestionAndOptions(): void
+    {
+        $this->currentQuestion = $this->getCurrentQuestionProperty();
+        $currentQuestionId = array_keys($this->questions)[$this->currentQuestionIndex] ?? null;
+        // Find the option_id that corresponds to the saved outcome_id
+        $this->selectedOption = null;
+        if (isset($this->answers[$currentQuestionId])) {
+            $option = Option::where('question_id', $currentQuestionId)
+                ->where('outcome_id', $this->answers[$currentQuestionId])
+                ->first();
+            $this->selectedOption = $option->id ?? null;
+        }
+        \Log::info('Updated Selected Option: ', [
+            'question_id' => $currentQuestionId,
+            'selected_option' => $this->selectedOption,
+            'outcome_id' => $this->answers[$currentQuestionId] ?? null
+        ]);
+        $this->resetErrorBag('selectedOption');
     }
 
     /**
@@ -215,7 +198,7 @@ class extends Component
     }
 
     /**
-     * Get options for the current question.
+     * Get options for the current question, including outcome_id.
      */
     public function getCurrentOptionsProperty()
     {
@@ -225,34 +208,32 @@ class extends Component
         return Option::where('question_id', $this->currentQuestion['id'])
             ->get()
             ->map(function ($option) {
-                return ['id' => $option->id, 'text' => $option->text];
+                return [
+                    'id' => $option->id,
+                    'text' => $option->text,
+                    'outcome_id' => $option->outcome_id,
+                ];
             })
             ->toArray();
     }
-
-   
-
-    public function with(): array
-    {
-       
-        return [
-            'quiz' => $this->quiz,
-            'currentQuestion' => $this->getCurrentQuestionProperty(),
-            'currentOptions' => $this->getCurrentOptionsProperty(),
-            'currentQuestionIndex'=>$this->currentQuestionIndex
-        ];
-    }
 }
 ?>
-
 <div class="max-w-2xl mx-auto p-4">
     @if ($start)
         <x-quiz.start :quiz="$quiz" wire:click="startQuiz" />
     @else
-        <x-quiz.question :quiz="$quiz" :questions="$questions" :question="$this->getCurrentQuestionProperty()" :currentQuestionIndex="$currentQuestionIndex" :options="$this->getCurrentOptionsProperty()" />
+        <x-quiz.question 
+            :quiz="$quiz" 
+            :questions="$questions" 
+            :question="$this->getCurrentQuestionProperty()" 
+            :currentQuestionIndex="$currentQuestionIndex" 
+            :selectedOption="$this->selectedOption" 
+            :options="$this->getCurrentOptionsProperty()" 
+        />
     @endif
 </div>
 
+@script
 <script>
     document.addEventListener('livewire:initialized', () => {
         Livewire.on('update-token', (token) => {
@@ -260,3 +241,4 @@ class extends Component
         });
     });
 </script>
+@endscript

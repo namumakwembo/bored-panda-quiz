@@ -1,26 +1,34 @@
 <!-- resources/views/components/quiz/question.blade.php -->
-@props(['quiz', 'question', 'options','currentQuestionIndex','questions'])
+@props(['quiz', 'question', 'options', 'currentQuestionIndex', 'questions','selectedOption'])
 
-
-<div class="max-w-xl mx-auto flex flex-col gap-y-4">
+<div x-data="{ selected: @entangle('selectedOption').live }" class="w-full  mx-auto  flex flex-col gap-y-4">
     {{-- Questions --}}
     <label class="text-3xl">
         {{ $question['text'] }}
     </label>
 
     {{-- Options --}}
-    <div class="space-y-2">
+    <div class="space-y-2 w-full">
         @foreach ($options as $option)
-
-            <label class="flex items-center mb-4">
-                <input wire:model="selectedOption"  type="radio" value="{{ $option['id'] }}" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                <span  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $option['text'] }}</span>
+            <label 
+                class="flex items-center mb-4 cursor-pointer" 
+                :class="{ 'bg-blue-100 border-blue-300 dark:bg-gray-700': selected == '{{ $option['id'] }}' }"
+            >
+                <input 
+                    wire:model.live="selectedOption" 
+                    type="radio" 
+                    value="{{ $option['id'] }}" 
+                    name="option" 
+                    x-bind:checked="selected == '{{ $option['id'] }}'"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                >
+                <span class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $option['text'] }}</span>
             </label>
         @endforeach
     </div>
 
     {{-- Actions --}}
-    <div>
+    <div class="w-full">
         <div class="grid grid-cols-2 gap-5 w-full">
             <flux:button
                 outline
@@ -32,26 +40,25 @@
                 {{ __('Prev') }}
             </flux:button>
 
-            @if ($currentQuestionIndex < count($questions) - 1 )
-            <flux:button
-            icon:trailing="chevron-right"
-            wire:click="nextQuestion"
-            variant="primary"
-            type="sumit"
-            class="w-full">
-            {{ __('Next') }}
-        </flux:button>
+            @if ($currentQuestionIndex < count($questions) - 1)
+                <flux:button
+                    icon:trailing="chevron-right"
+                    wire:click="nextQuestion"
+                    variant="primary"
+                    type="button"
+                    class="w-full"
+                >
+                    {{ __('Next') }}
+                </flux:button>
             @else
-            <flux:button
-
-            wire:click="completeQuiz"
-            variant="primary"
-            type="sumit"
-            class="w-full">
-
-            {{  __('Complete') }}
-        </flux:button>
-        
+                <flux:button
+                    wire:click="completeQuiz"
+                    variant="primary"
+                    type="button"
+                    class="w-full"
+                >
+                    {{ __('Complete') }}
+                </flux:button>
             @endif
         </div>
     </div>
@@ -59,4 +66,13 @@
     @error('selectedOption')
         <span class="text-red-500 text-sm">{{ $message }}</span>
     @enderror
+
+    {{-- Debug Output --}}
+    <div class="text-sm text-gray-500">
+        Selected Option: {{ $selectedOption }}
+        @if ($selectedOption)
+            <?php $selectedOptionData = collect($options)->firstWhere('id', $selectedOption); ?>
+            | Outcome ID: {{ $selectedOptionData['outcome_id'] ?? 'N/A' }}
+        @endif
+    </div>
 </div>

@@ -292,11 +292,14 @@ class QuizSeeder extends Seeder
     private function createOutcomes(int $quizId, array $outcomes): void
     {
         foreach ($outcomes as $key => $outcome) {
+
+            $description = $outcome['description']??null  ;
             Outcome::create([
                 'quiz_id' => $quizId,
                 'key' => $key,
-                'title' => $outcome['title']
-            ]);
+                'title' => $outcome['title'],
+                'description'=>$description
+             ]);
         }
     }
 

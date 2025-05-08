@@ -20,16 +20,31 @@
         
 
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800 p-9 max-w-7xl mx-auto grid">
+    <body class="h-screen bg-white dark:bg-zinc-900  ">
 
-        <nav >
+        <div class="max-w-7xl px-9 mx-auto  flex flex-col">
 
-          <img class="h-32" src="{{ asset('assets/BoredPanda-Logo.png') }}" alt="">
+        <nav  class="flex items-center  justify-between">
+
+          <a href="/">
+            <img class="h-28 dark:invert " src="{{ asset('assets/BoredPanda-Logo.png') }}" alt="">
+        </a>
+
+          <h1 class="text-gray-400 ">Interview test</h1>
             
         </nav>
       
 
-        {{ $slot }}
+        <div class="w-full  mx-auto">
+
+            {{ $slot }}
+        </div>
+
+
+        <footer class="mt-3">
+           <a class="text-sm text-gray-300" href="https://github.com/namumakwembo/bored-panda-test"> @namumakwembo</a>
+        </footer>
+    </div>
 
         @livewireScriptConfig
         @fluxScripts

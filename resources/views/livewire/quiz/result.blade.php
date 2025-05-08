@@ -1,33 +1,28 @@
-<!-- app/Livewire/QuizResultComponent.php -->
 <?php
+
 use Livewire\Volt\Component;
 use Livewire\Attributes\{Layout};
 use App\Models\Quiz;
-use App\Models\QuizSession;
-use App\Models\QuizAnswer;
-use App\Models\Option;
+use App\Models\Outcome;
 use Livewire\Attributes\Url;
-new #[Layout('components.layouts.quiz')] class extends Component {
+
+new #[Layout('components.layouts.quiz')]
+class extends Component
+{
     public $slug;
     #[Url]
-    public string $token;
+    public $outcome_id;
     public $quiz;
-    public $session;
     public $outcome;
 
-    public function mount(): void
+    public function mount($slug, $outcome_id): void
     {
+        $this->slug = $slug;
+        $this->outcome_id = $outcome_id;
         $this->quiz = Quiz::where('slug', $this->slug)->firstOrFail();
-        $this->session = QuizSession::where('token', $this->token)->where('quiz_id', $this->quiz->id)->firstOrFail();
-        $this->calculateOutcome();
-    }
-
-    private function calculateOutcome(): void
-    {
-        $answers = QuizAnswer::where('quiz_session_id', $this->session->id)->pluck('option_id')->toArray();
-        $outcomes = Option::whereIn('id', $answers)->with('outcome')->get()->groupBy('outcome.key')->map->count();
-        $dominantOutcome = $outcomes->sortDesc()->keys()->first();
-        $this->outcome = $this->quiz->outcomes()->where('key', $dominantOutcome)->first();
+        $this->outcome = Outcome::where('id', $this->outcome_id)
+            ->where('quiz_id', $this->quiz->id)
+            ->firstOrFail();
     }
 };
 ?>

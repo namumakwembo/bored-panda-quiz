@@ -6,7 +6,7 @@ use Livewire\Volt\Volt;
 
 Volt::route('/', 'quiz.index')->name('quiz');
 Volt::route('/quiz/{slug}', 'quiz.show')->name('quiz.show');
-Volt::route('/quiz/{slug}/result', 'quiz.result')->name('quiz.result');
+Volt::route('/quiz/{slug}/result/{outcome_id}', 'quiz.result')->name('quiz.result');
 // Route::get('/quiz/{slug}/{token?}',Show::class)->name('quiz.show');
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
