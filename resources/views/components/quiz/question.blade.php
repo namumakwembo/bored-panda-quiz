@@ -29,7 +29,7 @@
 
     {{-- Actions --}}
     <div class="w-full">
-        <div class="grid grid-cols-2 gap-5 w-full">
+        <div class="grid sm:grid-cols-2 gap-5 w-full">
             <flux:button
                 outline
                 type="button"

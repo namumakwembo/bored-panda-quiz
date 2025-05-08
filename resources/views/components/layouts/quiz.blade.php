@@ -23,16 +23,16 @@
     </head>
     <body class="h-screen bg-white dark:bg-zinc-900  ">
 
-        <div class="max-w-7xl px-9 mx-auto  flex flex-col">
+        <div class="max-w-7xl px-3 sm:px-9 py-3 mx-auto  flex flex-col">
 
         <nav  class="flex items-center  justify-between">
 
           <a href="/">
-            <img class="h-28 dark:invert " src="{{ asset('assets/BoredPanda-Logo.png') }}" alt="">
+            <img class="h-28 dark:invert object-cover " src="{{ asset('assets/BoredPanda-Logo.png') }}" alt="">
         </a>
 
-          <h1 class="text-gray-400 flex items-center gap-4 ">
-            Interview Test
+          <h1 class="text-gray-400 flex items-center gap-4  ">
+            <span class="hidden sm:flex">Interview Test</span>
             <flux:tooltip >
                 <flux:button icon="information-circle" size="sm" variant="ghost" />
                 <flux:tooltip.content class="max-w-[20rem] space-y-2">

@@ -48,9 +48,9 @@ confetti({
 
     <div class="bg-white dark:bg-zinc-800 p-6 mt-10 h-96 flex flex-col rounded-2xl shadow-sm text-center ">
         <h2 class="text-xl font-bold mb-4 underline text-gray-700 dark:text-white">You got:</h2>
-        <h2 class="text-4xl font-bold mb-4 animate-pulse">{{ $outcome->title }}</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4 animate-pulse">{{ $outcome->title }}</h2>
         <p class="text-gray-700 dark:text-gray-50 ">{{ $outcome->description }}</p>
-        <div class="grid grid-cols-2 mt-auto gap-5">
+        <div class="grid sm:grid-cols-2 mt-auto gap-5">
 
             <flux:button href="{{ route('home') }}" class="w-full">
 
