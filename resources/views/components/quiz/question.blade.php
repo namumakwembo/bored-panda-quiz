@@ -55,7 +55,8 @@
                     wire:click="completeQuiz"
                     variant="primary"
                     type="button"
-                    class="w-full"
+
+                    class="w-full bg-green-600 hover:bg-green-800 transition-colors text-white"
                 >
                     {{ __('Complete') }}
                 </flux:button>
