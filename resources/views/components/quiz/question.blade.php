@@ -67,12 +67,4 @@
         <span class="text-red-500 text-sm">{{ $message }}</span>
     @enderror
 
-    {{-- Debug Output --}}
-    <div class="text-sm text-gray-500">
-        Selected Option: {{ $selectedOption }}
-        @if ($selectedOption)
-            <?php $selectedOptionData = collect($options)->firstWhere('id', $selectedOption); ?>
-            | Outcome ID: {{ $selectedOptionData['outcome_id'] ?? 'N/A' }}
-        @endif
-    </div>
 </div>
