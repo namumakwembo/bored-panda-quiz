@@ -5,11 +5,12 @@ namespace Database\Seeders;
 use App\Models\Quiz;
 use App\Models\Outcome;
 use App\Models\Option;
+use App\Models\Question;
 use Illuminate\Database\Seeder;
 
 class QuizSeeder extends Seeder
 {
-    /**
+      /**
      * Run the database seeds.
      */
     public function run()
@@ -54,7 +55,8 @@ class QuizSeeder extends Seeder
                 ],
                 'questions' => [
                     [
-                        'question' => 'What’s your group chat vibe?',
+                        'text' => 'What’s your group chat vibe?',
+                        'order' => 1,
                         'options' => [
                             ['text' => 'Sending heartfelt messages', 'outcome' => 'loyal'],
                             ['text' => 'Spamming memes', 'outcome' => 'fun'],
@@ -63,7 +65,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'How do you cheer up a friend?',
+                        'text' => 'How do you cheer up a friend?',
+                        'order' => 2,
                         'options' => [
                             ['text' => 'Listen and support', 'outcome' => 'loyal'],
                             ['text' => 'Plan a fun night out', 'outcome' => 'fun'],
@@ -72,7 +75,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'What’s your ideal friend hangout?',
+                        'text' => 'What’s your ideal friend hangout?',
+                        'order' => 3,
                         'options' => [
                             ['text' => 'Heart-to-heart at a café', 'outcome' => 'loyal'],
                             ['text' => 'Karaoke or dancing', 'outcome' => 'fun'],
@@ -110,7 +114,8 @@ class QuizSeeder extends Seeder
                 ],
                 'questions' => [
                     [
-                        'question' => 'What’s your weekend vibe?',
+                        'text' => 'What’s your weekend vibe?',
+                        'order' => 1,
                         'options' => [
                             ['text' => 'Date night or friends', 'outcome' => 'romcom'],
                             ['text' => 'Solving a mystery game', 'outcome' => 'thriller'],
@@ -119,7 +124,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'How do you handle conflict?',
+                        'text' => 'How do you handle conflict?',
+                        'order' => 2,
                         'options' => [
                             ['text' => 'Talk it out with charm', 'outcome' => 'romcom'],
                             ['text' => 'Strategize and stay sharp', 'outcome' => 'thriller'],
@@ -128,7 +134,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'What’s your dream vacation?',
+                        'text' => 'What’s your dream vacation?',
+                        'order' => 3,
                         'options' => [
                             ['text' => 'Romantic Paris getaway', 'outcome' => 'romcom'],
                             ['text' => 'Haunted castle tour', 'outcome' => 'thriller'],
@@ -153,7 +160,7 @@ class QuizSeeder extends Seeder
                     ],
                     'creative' => [
                         'title' => 'Creative Visionary',
-                        'description' => 'You shine when expressing ideas through art or innovation.',
+                        'Parameter: description' => 'You shine when expressing ideas through art or innovation.',
                     ],
                     'freelance' => [
                         'title' => 'Freelance Free Spirit',
@@ -166,7 +173,8 @@ class QuizSeeder extends Seeder
                 ],
                 'questions' => [
                     [
-                        'question' => 'What’s your work playlist like?',
+                        'text' => 'What’s your work playlist like?',
+                        'order' => 1,
                         'options' => [
                             ['text' => 'Instrumental focus tunes', 'outcome' => 'corporate'],
                             ['text' => 'Indie or experimental', 'outcome' => 'creative'],
@@ -175,7 +183,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'What motivates you at work?',
+                        'text' => 'What motivates you at work?',
+                        'order' => 2,
                         'options' => [
                             ['text' => 'Climbing the ladder', 'outcome' => 'corporate'],
                             ['text' => 'Creating something new', 'outcome' => 'creative'],
@@ -184,7 +193,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'What’s your dream office setup?',
+                        'text' => 'What’s your dream office setup?',
+                        'order' => 3,
                         'options' => [
                             ['text' => 'Sleek high-rise suite', 'outcome' => 'corporate'],
                             ['text' => 'Colorful studio space', 'outcome' => 'creative'],
@@ -222,7 +232,8 @@ class QuizSeeder extends Seeder
                 ],
                 'questions' => [
                     [
-                        'question' => 'What’s your go-to weekend activity?',
+                        'text' => 'What’s your go-to weekend activity?',
+                        'order' => 1,
                         'options' => [
                             ['text' => 'Gardening or hiking', 'outcome' => 'spring'],
                             ['text' => 'Beach or BBQ', 'outcome' => 'summer'],
@@ -231,7 +242,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'Pick a drink to sip on.',
+                        'text' => 'Pick a drink to sip on.',
+                        'order' => 2,
                         'options' => [
                             ['text' => 'Floral tea', 'outcome' => 'spring'],
                             ['text' => 'Iced lemonade', 'outcome' => 'summer'],
@@ -240,7 +252,8 @@ class QuizSeeder extends Seeder
                         ],
                     ],
                     [
-                        'question' => 'What’s your favorite type of weather?',
+                        'text' => 'What’s your favorite type of weather?',
+                        'order' => 3,
                         'options' => [
                             ['text' => 'Mild and breezy', 'outcome' => 'spring'],
                             ['text' => 'Hot and sunny', 'outcome' => 'summer'],
@@ -254,7 +267,7 @@ class QuizSeeder extends Seeder
     }
 
     /**
-     * Create a quiz and its related outcomes and options.
+     * Create a quiz and its related outcomes, questions, and options.
      */
     private function createQuiz(array $data): void
     {
@@ -269,8 +282,8 @@ class QuizSeeder extends Seeder
         // Create outcomes
         $this->createOutcomes($quiz->id, $data['outcomes']);
 
-        // Create options and questions
-        $this->createOptions($quiz->id, $data['questions']);
+        // Create questions and options
+        $this->createQuestionsAndOptions($quiz->id, $data['questions']);
     }
 
     /**
@@ -282,28 +295,35 @@ class QuizSeeder extends Seeder
             Outcome::create([
                 'quiz_id' => $quizId,
                 'key' => $key,
-                'title' => $outcome['title'],
-                'description' => $outcome['description'],
+                'title' => $outcome['title']
             ]);
         }
     }
 
     /**
-     * Create options and associate them with questions and outcomes.
+     * Create questions and their associated options.
      */
-    private function createOptions(int $quizId, array $questions): void
+    private function createQuestionsAndOptions(int $quizId, array $questions): void
     {
-        foreach ($questions as $question) {
-            foreach ($question['options'] as $option) {
+        foreach ($questions as $questionData) {
+            // Create question
+            $question = Question::create([
+                'quiz_id' => $quizId,
+                'text' => $questionData['text'],
+                'order' => $questionData['order'],
+            ]);
+
+            // Create options
+            foreach ($questionData['options'] as $option) {
                 $outcome = Outcome::where('quiz_id', $quizId)
                     ->where('key', $option['outcome'])
                     ->first();
 
                 Option::create([
                     'quiz_id' => $quizId,
-                    'text' => $question['question'],
-                    'text' => $option['text'],
+                    'question_id' => $question->id,
                     'outcome_id' => $outcome->id,
+                    'text' => $option['text'],
                 ]);
             }
         }

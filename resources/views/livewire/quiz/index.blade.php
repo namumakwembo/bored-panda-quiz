@@ -27,7 +27,7 @@ new #[Layout('components.layouts.quiz')] class extends Component {
             : null;
 
         // Use existing token or create a new one
-        $token = $session ? $session->token : Str::uuid()->toString();
+        $token = $session ? $session->token : Str::random(32);
 
         if (!$session) {
             $session = QuizSession::create([
@@ -41,7 +41,7 @@ new #[Layout('components.layouts.quiz')] class extends Component {
         cookie()->queue('quiz_token', $token, 60 * 24 * 7);
 
         // Redirect to quiz with token
-        $this->redirect(route('quiz.show', ['slug' => $slug, 'token' => $token]), navigate: true);
+        $this->redirect(route('quiz.show', ['slug' => $slug, 'token' => $token]));
     }
 
 

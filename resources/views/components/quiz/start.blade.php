@@ -19,7 +19,7 @@
     </div>
 
     <div>
-        <flux:button wire:click="$set('start',true)" variant="primary" type="submit" class="w-full">{{ __('Next') }}</flux:button>
+        <flux:button wire:click="startQuiz" variant="primary" type="submit" class="w-full">{{ __('Next') }}</flux:button>
     </div>
 
 

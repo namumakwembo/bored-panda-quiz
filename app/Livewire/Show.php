@@ -1,6 +1,7 @@
 <?php
 
-use Livewire\Volt\Component;
+namespace App\Livewire;
+
 use Livewire\Attributes\{Layout};
 use App\Models\Quiz;
 use App\Models\Question;
@@ -8,9 +9,10 @@ use App\Models\Option;
 use App\Models\QuizSession;
 use App\Models\QuizAnswer;
 use Illuminate\Support\Str;
+use Livewire\Component;
 
-new #[Layout('components.layouts.quiz')]
-class extends Component
+
+class Show extends Component
 {
     public $slug;
     public $token;
@@ -62,7 +64,7 @@ class extends Component
         if (!$this->session || $this->session?->completed) {
             $this->session = QuizSession::create([
                 'quiz_id' => $this->quiz->id,
-                'token' =>Str::random(32),
+                'token' => Str::uuid(),
                 'completed' => false,
             ]);
             $this->token = $this->session->token;
@@ -164,7 +166,7 @@ class extends Component
      */
     public function nextQuestion(): void
     {
-
+        dd('firing');
         if (!$this->selectedOption) {
             $this->addError('selectedOption', 'Please select an option.');
             return;
@@ -230,33 +232,21 @@ class extends Component
             ->toArray();
     }
 
+    function test()  {
+       dd( 'here');
+        
+    }
+
    
 
-    public function with(): array
+
+    public function render()
     {
-       
-        return [
+        return view('livewire.show',[
             'quiz' => $this->quiz,
             'currentQuestion' => $this->getCurrentQuestionProperty(),
             'currentOptions' => $this->getCurrentOptionsProperty(),
             'currentQuestionIndex'=>$this->currentQuestionIndex
-        ];
+        ])->layout('components.layouts.quiz');
     }
 }
-?>
-
-<div class="max-w-2xl mx-auto p-4">
-    @if ($start)
-        <x-quiz.start :quiz="$quiz" wire:click="startQuiz" />
-    @else
-        <x-quiz.question :quiz="$quiz" :questions="$questions" :question="$this->getCurrentQuestionProperty()" :currentQuestionIndex="$currentQuestionIndex" :options="$this->getCurrentOptionsProperty()" />
-    @endif
-</div>
-
-<script>
-    document.addEventListener('livewire:initialized', () => {
-        Livewire.on('update-token', (token) => {
-            document.cookie = `quiz_token=${token}; path=/`;
-        });
-    });
-</script>
