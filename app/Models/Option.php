@@ -9,7 +9,7 @@ class Option extends Model
 {
     /** @use HasFactory<\Database\Factories\OptionFactory> */
     use HasFactory;
-    
+
     protected $fillable = ['quiz_id', 'question_id', 'outcome_id', 'text'];
 
     public function quiz()

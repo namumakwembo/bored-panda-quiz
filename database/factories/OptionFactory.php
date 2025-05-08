@@ -20,8 +20,8 @@ class OptionFactory extends Factory
     {
         return [
             'question_id' => Question::factory(),  // or Quiz::factory() if using quiz directly
-            'outcome_id'  => Outcome::factory(),
-            'text'        => $this->faker->sentence(3),
+            'outcome_id' => Outcome::factory(),
+            'text' => $this->faker->sentence(3),
         ];
     }
 }

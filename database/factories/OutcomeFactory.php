@@ -19,9 +19,9 @@ class OutcomeFactory extends Factory
     {
         return [
             //
-            'quiz_id'     => Quiz::factory(),
-            'key'         => $this->faker->unique()->word(),
-            'title'       => $this->faker->sentence(3),
+            'quiz_id' => Quiz::factory(),
+            'key' => $this->faker->unique()->word(),
+            'title' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(),
         ];
     }

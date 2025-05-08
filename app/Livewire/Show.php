@@ -2,28 +2,36 @@
 
 namespace App\Livewire;
 
-use Livewire\Attributes\{Layout};
-use App\Models\Quiz;
-use App\Models\Question;
 use App\Models\Option;
-use App\Models\QuizSession;
+use App\Models\Question;
+use App\Models\Quiz;
 use App\Models\QuizAnswer;
+use App\Models\QuizSession;
 use Illuminate\Support\Str;
 use Livewire\Component;
-
 
 class Show extends Component
 {
     public $slug;
+
     public $token;
+
     public $quiz;
+
     public $questions = [];
+
     public bool $start = true;
+
     public $currentQuestionIndex = 0;
+
     public $answers = [];
+
     public $currentQuestion;
+
     public $currentOptions;
+
     public $session;
+
     public $selectedOption = null;
 
     public function mount($slug, $token = null): void
@@ -39,7 +47,7 @@ class Show extends Component
         $this->loadQuestions();
         $this->loadAnswers();
 
-        $this->currentQuestion=$this->getCurrentQuestionProperty();
+        $this->currentQuestion = $this->getCurrentQuestionProperty();
     }
 
     /**
@@ -61,7 +69,7 @@ class Show extends Component
                 ->first();
         }
 
-        if (!$this->session || $this->session?->completed) {
+        if (! $this->session || $this->session?->completed) {
             $this->session = QuizSession::create([
                 'quiz_id' => $this->quiz->id,
                 'token' => Str::uuid(),
@@ -87,7 +95,6 @@ class Show extends Component
             })
             ->toArray();
 
-
     }
 
     /**
@@ -108,7 +115,7 @@ class Show extends Component
         $this->currentQuestionIndex = 0;
         $questionIds = array_keys($this->questions);
         foreach ($questionIds as $index => $questionId) {
-            if (!in_array($questionId, $answeredQuestionIds)) {
+            if (! in_array($questionId, $answeredQuestionIds)) {
                 $this->currentQuestionIndex = $index;
                 break;
             }
@@ -126,7 +133,7 @@ class Show extends Component
      */
     public function saveAnswer(): void
     {
-        if (!$this->selectedOption) {
+        if (! $this->selectedOption) {
             return;
         }
 
@@ -167,8 +174,9 @@ class Show extends Component
     public function nextQuestion(): void
     {
         dd('firing');
-        if (!$this->selectedOption) {
+        if (! $this->selectedOption) {
             $this->addError('selectedOption', 'Please select an option.');
+
             return;
         }
 
@@ -188,8 +196,9 @@ class Show extends Component
      */
     public function completeQuiz(): void
     {
-        if (!$this->selectedOption) {
+        if (! $this->selectedOption) {
             $this->addError('selectedOption', 'Please select an option.');
+
             return;
         }
 
@@ -221,9 +230,10 @@ class Show extends Component
      */
     public function getCurrentOptionsProperty()
     {
-        if (!$this->currentQuestion) {
+        if (! $this->currentQuestion) {
             return [];
         }
+
         return Option::where('question_id', $this->currentQuestion['id'])
             ->get()
             ->map(function ($option) {
@@ -232,21 +242,19 @@ class Show extends Component
             ->toArray();
     }
 
-    function test()  {
-       dd( 'here');
-        
+    public function test()
+    {
+        dd('here');
+
     }
-
-   
-
 
     public function render()
     {
-        return view('livewire.show',[
+        return view('livewire.show', [
             'quiz' => $this->quiz,
             'currentQuestion' => $this->getCurrentQuestionProperty(),
             'currentOptions' => $this->getCurrentOptionsProperty(),
-            'currentQuestionIndex'=>$this->currentQuestionIndex
+            'currentQuestionIndex' => $this->currentQuestionIndex,
         ])->layout('components.layouts.quiz');
     }
 }

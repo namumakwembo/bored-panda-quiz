@@ -32,7 +32,7 @@
         </a>
 
           <h1 class="text-gray-400 flex items-center gap-4 ">
-            Interview test
+            Interview Test
             <flux:tooltip >
                 <flux:button icon="information-circle" size="sm" variant="ghost" />
                 <flux:tooltip.content class="max-w-[20rem] space-y-2">

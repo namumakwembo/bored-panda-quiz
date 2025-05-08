@@ -17,9 +17,10 @@ class QuizFactory extends Factory
     public function definition(): array
     {
         $title = $this->faker->sentence(4);
+
         return [
-            'title'       => $title,
-            'slug'        => str()->slug($title) . '-' . $this->faker->unique()->numberBetween(1, 999),
+            'title' => $title,
+            'slug' => str()->slug($title).'-'.$this->faker->unique()->numberBetween(1, 999),
             'description' => $this->faker->paragraph(),
         ];
     }

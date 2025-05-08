@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\Quiz;
-use App\Models\Outcome;
 use App\Models\Option;
+use App\Models\Outcome;
 use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Database\Seeder;
 
 class QuizSeeder extends Seeder
 {
-      /**
+    /**
      * Run the database seeds.
      */
     public function run()
@@ -93,7 +93,7 @@ class QuizSeeder extends Seeder
                             ['text' => 'Offer perspective on balancing life', 'outcome' => 'wise'],
                             ['text' => 'No worries, catch up later', 'outcome' => 'chill'],
                         ],
-                    ]
+                    ],
                 ],
             ],
             // Quiz 2: Which Movie Genre Is Your Life?
@@ -363,13 +363,13 @@ class QuizSeeder extends Seeder
     {
         foreach ($outcomes as $key => $outcome) {
 
-            $description = $outcome['description']??null  ;
+            $description = $outcome['description'] ?? null;
             Outcome::create([
                 'quiz_id' => $quizId,
                 'key' => $key,
                 'title' => $outcome['title'],
-                'description'=>$description
-             ]);
+                'description' => $description,
+            ]);
         }
     }
 

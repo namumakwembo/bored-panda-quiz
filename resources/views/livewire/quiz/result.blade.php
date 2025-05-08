@@ -52,7 +52,7 @@ confetti({
         <p class="text-gray-700 dark:text-gray-50 ">{{ $outcome->description }}</p>
         <div class="grid grid-cols-2 mt-auto gap-5">
 
-            <flux:button href="{{ route('quiz') }}" class="w-full">
+            <flux:button href="{{ route('home') }}" class="w-full">
 
                 {{ __('  Back to Quizzes') }}
             </flux:button>
