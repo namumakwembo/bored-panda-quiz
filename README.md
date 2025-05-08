@@ -18,7 +18,7 @@ The completed quiz application is hosted on a subdomain of my website for live p
 
 The source code is available in the GitHub repository:
 
-**[GitHub Repository](https://github.com/namumakwembo/bored-panda-quiz)**  
+**[GitHub Repository](https://github.com/namumakwembo/bored-panda-quizt)**  
 
 ## Tech Stack
 
