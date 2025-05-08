@@ -9,6 +9,8 @@ As part of the FullStack Developer position interview process at Bored Panda, I 
 ## Live Preview
 
 The completed quiz application is hosted on a subdomain of my website for live preview:
+- Hosted on Digital ocean via laravel forge
+- Added SSL (Secure Socket layer) to make website secure 
 
 **[bored-panda.namuio.com](https://bored-panda.namuio.com)**
 

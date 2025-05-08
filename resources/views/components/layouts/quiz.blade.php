@@ -31,7 +31,20 @@
             <img class="h-28 dark:invert " src="{{ asset('assets/BoredPanda-Logo.png') }}" alt="">
         </a>
 
-          <h1 class="text-gray-400 ">Interview test</h1>
+          <h1 class="text-gray-400 flex items-center gap-4 ">
+            Interview test
+            <flux:tooltip >
+                <flux:button icon="information-circle" size="sm" variant="ghost" />
+                <flux:tooltip.content class="max-w-[20rem] space-y-2">
+                    <p>
+                       This is a live preview . As part of the FullStack Developer position interview process at Bored Panda.
+                    </p>
+                    <a class="hover:text-blue-500 transition-colors" href="https://github.com/namumakwembo/" > Developer: Namu Makwembo </a>
+                    <br>
+                    <a href="mailto:makwembonamu@gmail.com" class="underline hover:text-blue-500 transition-colors "> Email: makwembonamu@gmail.com </a>
+                </flux:tooltip.content>
+            </flux:tooltip>
+        </h1>
             
         </nav>
       
