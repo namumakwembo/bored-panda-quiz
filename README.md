@@ -1,12 +1,12 @@
 # Bored Panda FullStack Developer Task Report
-
+![bored-panda.namuio.com](preview.png)
 #### By: Namu Makwembo
 
 ## Introduction
 
 As part of the FullStack Developer position interview process at Bored Panda, I was tasked with creating a quiz application similar to BuzzFeed quizzes. The application allows users to select a quiz, answer questions, and view a personality-based outcome based on their selections. This report outlines my approach, the live demo, source code, future tasks, and reflections on the task.
 
-## Live Link
+## Live Preview
 
 The completed quiz application is hosted on a subdomain of my website for live preview:
 
